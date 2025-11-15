@@ -6,10 +6,11 @@ import com.techmarket.user_service.dto.response.AuthResponse;
 import com.techmarket.user_service.exceptions.FunctionalException;
 import com.techmarket.user_service.model.RefreshToken;
 import com.techmarket.user_service.model.User;
+import com.techmarket.user_service.model.enums.Role;
 import com.techmarket.user_service.repository.UserRepository;
-import com.techmarket.user_service.service.JwtService;
-import com.techmarket.user_service.service.RefreshTokenService;
-import com.techmarket.user_service.service.UserService;
+import com.techmarket.user_service.security.JwtService;
+import com.techmarket.user_service.security.RefreshTokenService;
+import com.techmarket.user_service.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -18,7 +19,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class UserServiceImp implements UserService {
+public class AuthServiceImp implements AuthService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
@@ -37,10 +38,11 @@ public class UserServiceImp implements UserService {
         user.setEmail(authRequest.getEmail());
         user.setPassword(passwordEncoder.encode(authRequest.getPassword()));
 
+        user.setRole(Role.CUSTOMER);
         userRepository.save(user);
-        String token = jwtService.generateToken(user.getEmail());
+        String token = jwtService.generateToken(user);
         RefreshToken refreshToken = refreshTokenService.createRefreshToken(user.getEmail());
-        return new AuthResponse(token, refreshToken.getToken());
+        return new AuthResponse(token, refreshToken.getToken(), user.getRole().name());
     }
 
     @Override
@@ -50,8 +52,8 @@ public class UserServiceImp implements UserService {
         );
         User user = userRepository.findByEmail(authRequest.getEmail())
                 .orElseThrow(() -> new FunctionalException(MessageConstants.USER_NOT_FOUND));
-        String token = jwtService.generateToken(user.getEmail());
+        String token = jwtService.generateToken(user);
         RefreshToken refreshToken = refreshTokenService.createRefreshToken(user.getEmail());
-        return new AuthResponse(token, refreshToken.getToken());
+        return new AuthResponse(token, refreshToken.getToken(), user.getRole().name());
     }
 }

@@ -1,5 +1,6 @@
 package com.techmarket.user_service.model;
 
+import com.techmarket.user_service.model.enums.Role;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -23,6 +24,9 @@ public class User {
     private String lastName;
     private String email;
     private String password;
+
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
     @CreatedDate
     @Column(updatable = false)

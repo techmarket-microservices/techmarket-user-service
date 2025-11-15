@@ -3,9 +3,9 @@ package com.techmarket.user_service.controller;
 import com.techmarket.user_service.constants.ApiPaths;
 import com.techmarket.user_service.dto.request.AuthRequest;
 import com.techmarket.user_service.dto.response.AuthResponse;
-import com.techmarket.user_service.service.JwtService;
-import com.techmarket.user_service.service.RefreshTokenService;
-import com.techmarket.user_service.service.UserService;
+import com.techmarket.user_service.security.JwtService;
+import com.techmarket.user_service.security.RefreshTokenService;
+import com.techmarket.user_service.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,8 +15,8 @@ import java.util.Map;
 @RestController
 @RequestMapping(ApiPaths.BASE_URL)
 @RequiredArgsConstructor
-public class UserController {
-    private final UserService userService;
+public class AuthController {
+    private final AuthService userService;
     private final JwtService jwtService;
     private final RefreshTokenService refreshTokenService;
 
@@ -45,7 +45,7 @@ public class UserController {
                         refreshTokenService.delete(token);
                         return ResponseEntity.badRequest().body("Refresh token expired. Please login again.");
                     }
-                    String newJwt = jwtService.generateToken(token.getUser().getEmail());
+                    String newJwt = jwtService.generateToken(token.getUser());
                     return ResponseEntity.ok(Map.of("token", newJwt));
                 })
                 .orElse(ResponseEntity.badRequest().body("Invalid refresh token."));

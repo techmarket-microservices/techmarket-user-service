@@ -1,4 +1,4 @@
-package com.techmarket.user_service.service;
+package com.techmarket.user_service.security;
 
 import com.techmarket.user_service.constants.MessageConstants;
 import com.techmarket.user_service.exceptions.FunctionalException;
@@ -9,7 +9,6 @@ import com.techmarket.user_service.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 import java.util.Optional;

@@ -1,4 +1,4 @@
-package com.techmarket.user_service.service;
+package com.techmarket.user_service.security;
 
 import com.techmarket.user_service.model.User;
 import com.techmarket.user_service.repository.UserRepository;

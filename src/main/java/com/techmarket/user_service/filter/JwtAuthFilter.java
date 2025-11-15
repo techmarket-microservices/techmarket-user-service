@@ -1,6 +1,6 @@
 package com.techmarket.user_service.filter;
 
-import com.techmarket.user_service.service.JwtService;
+import com.techmarket.user_service.security.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

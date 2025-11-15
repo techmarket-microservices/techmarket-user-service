@@ -1,4 +1,4 @@
-package com.techmarket.user_service.service;
+package com.techmarket.user_service.security;
 
 import com.techmarket.user_service.model.User;
 import io.jsonwebtoken.Claims;
@@ -23,15 +23,17 @@ public class JwtService {
     @Value("${jwt.accessTokenExpirationMs}")
     private Long accessTokenDurationMs;
 
-    public String generateToken(String email){
+    public String generateToken(User user){
         Map<String, Object> claims = new HashMap<>();
-        return createToken(claims, email);
+        claims.put("id", user.getUuid());
+        claims.put("role", user.getRole().name());
+        return createToken(claims, user);
     }
 
-    private String createToken(Map<String, Object> claims, String email) {
+    private String createToken(Map<String, Object> claims, User user) {
         return Jwts.builder()
                 .claims(claims)
-                .subject(email)
+                .subject(user.getEmail())
                 .issuedAt(new Date())
                 .expiration(new Date(System.currentTimeMillis() + accessTokenDurationMs))
                 .signWith(getSignKey())
