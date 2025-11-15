@@ -24,8 +24,8 @@ It exposes REST APIs and communicates with other services through secure HTTP ca
 ## **Tech Stack**
 
 * **Java 21**
-* **Spring Boot 3**
-* **Spring Security 6**
+* **Spring Boot 3.5.7**
+* **Spring Security 6.5.6**
 * **Spring Data JPA**
 * **PostgreSQL**
 * **JWT Authentication**
