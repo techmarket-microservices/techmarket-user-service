@@ -20,10 +20,6 @@ public class AuthController {
     private final JwtService jwtService;
     private final RefreshTokenService refreshTokenService;
 
-    @GetMapping
-    public String home(){
-        return "hello zahaira";
-    }
 
     @PostMapping(ApiPaths.REGISTER_URL)
     public ResponseEntity<AuthResponse> register(@RequestBody AuthRequest authRequest) throws Exception{

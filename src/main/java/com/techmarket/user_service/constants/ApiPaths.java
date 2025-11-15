@@ -9,5 +9,4 @@ public class ApiPaths {
 
     public static final String ADMIN_URL = BASE_URL + "/admin";
     public static final String CUSTOMER_URL = BASE_URL + "/customer";
-
 }
